@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Algorithmic SEC filings">
+    <meta name="author" content="Aelo">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <title>Aelo</title>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified CSS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+      <script type="text/javascript">
+        var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+      </script>
+
+    <script>
+        function send(){
+            $("#data").html("");
+            console.log("Send! " + String($('#search').val()));
+            $('#data').append("<center><div tm-loading id='spinner-loader' class='loading'>🎥</div></center><br>");
+            $('.spinner-loader').css("transform-origin", "50% 50%");
+            $.getJSON($SCRIPT_ROOT + '/stock_search', {
+                ticker: $('#search').val(),
+            }, function(data) {
+                $.each(data, function(i, field){
+                    $("#data").html(field);
+                });
+            });
+            return false;
+        };
+    </script>
+
+    <style>
+
+    body{
+        font-family: open sans;
+        background-color: #c9c9c9;
+    }
+
+    textarea{
+        border-radius: 5px;
+        font-size: 22px;
+    }
+
+    p{
+      font-size: 14px;
+    }
+    .jumbotron{
+      margin-bottom: 0px;
+      min-width: 100%;
+      min-height:90%;
+    }
+    #message {
+      resize: none;
+      min-height:200px;
+      min-width: 90%;
+      word-wrap: break-word;
+      font-size: 1.5em;
+    }
+
+    .container{
+      max-width: 100%;
+      margin: 0px;
+    }
+
+    textarea{
+      min-width: 90%;
+    }
+
+    * {
+      max-width: 100%;
+    }
+
+    footer{
+      padding-bottom: 10%;
+      max-width: 95%;
+    }
+
+    button {
+      padding: 1%;
+    }
+
+    #spinner-loader {
+      z-index: 1;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -64px 0 0 -64px;
+      width: 128px;
+      height: 128px;
+      line-height: 140px;
+      font-size: 128px;
+      text-align: center;
+      font-family: sans-serif;
+      color: #555;
+    }
+    #spinner-loader.loading {
+      animation: spin 1.5s infinite linear;
+    }
+    #spinner-loader.error {
+      animation: none;
+    }
+    @keyframes spin {
+      100% { transform:rotate(360deg) }
+    }
+    </style>
+
+  <body>
+
+    <center>
+    <h1>Tristan Video Downloader {{ game_data }}</h1>
+    <br>
+  	<textarea id = "search" name = "search" placeholder="Enter a YouTube video URL: "></textarea><br>
+    <button type="button" class="btn-lg btn-primary" onclick="send()">Download Video</button>
+
+    <div id = "data">
+    </div>
+</body>
+</html>
