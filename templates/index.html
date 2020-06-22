@@ -26,8 +26,8 @@
             console.log("Send! " + String($('#search').val()));
             $('#data').append("<center><div tm-loading id='spinner-loader' class='loading'>🎥</div></center><br>");
             $('.spinner-loader').css("transform-origin", "50% 50%");
-            $.getJSON($SCRIPT_ROOT + '/stock_search', {
-                ticker: $('#search').val(),
+            $.getJSON($SCRIPT_ROOT + '/example_route', {
+                parameter1: $('#search').val(),
             }, function(data) {
                 $.each(data, function(i, field){
                     $("#data").html(field);
@@ -115,10 +115,10 @@
   <body>
 
     <center>
-    <h1>Tristan Video Downloader {{ game_data }}</h1>
+    <h1>Boiler Plate {{ game_data }}</h1>
     <br>
-  	<textarea id = "search" name = "search" placeholder="Enter a YouTube video URL: "></textarea><br>
-    <button type="button" class="btn-lg btn-primary" onclick="send()">Download Video</button>
+  	<textarea id = "search" name = "search" placeholder="Enter some text: "></textarea><br>
+    <button type="button" class="btn-lg btn-primary" onclick="send()">Send Request to Python</button>
 
     <div id = "data">
     </div>

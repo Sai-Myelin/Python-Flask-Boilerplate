@@ -1,22 +1,30 @@
-from pytube import YouTube
+#Only required library is Flask
+#Python 3+
 from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
 
-@app.route('/stock_search')
-def load_stock_data():
-    name = request.args.get('ticker', type=str)
+#This route is called from JS inside of Index.html on line 30
+@app.route('/example_route')
+def function1():
+    #Get the data from the request
+    #The parameter we want is called parameter1
+    #See lines 23-38 for more details!
+    name = request.args.get('parameter1', type=str)
     url = (str(name))
-    output_string = str(YouTube("https://www.youtube.com/watch?v=ornZr5VB4U0&feature=youtu.be&list=PLZvMd5DC4ZW4g1nHZVi9g7PzMxacSqAvm").streams[0].url)
-    output_string = "<iframe width = '512px' height = '301px' src = '" + output_string + "'></iframe>"
-    return jsonify(ticker = str(output_string))
+    return jsonify(parameter1 = str(url))
 
+#This means when you type localhost:5555/home it will hit this route
+#5555 is just the port defined at the bottom of the file!
 @app.route('/home')
 def edit():
-    data = [1,1,1,
-            0,0,0,
-            -1,-1,-1]
-    return render_template('index.html', boardData = data)
+    #Data to pass to our templates/index.html file
+    data = 6
+
+    #This line means render index.html with params data as name game_data
+    #A great behavior that can be very useful.
+    return render_template('index.html', game_data = data)
 
 if __name__ == '__main__':
+    #The port our Flask app will run on
     app.run(port=5555)
